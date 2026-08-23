@@ -1,5 +1,5 @@
 # ============================================================
-# ZeroES Laser Pro – الإصدار المُصحح
+# ZeroES Laser Pro – نسخة مستقرة
 # ============================================================
 
 import streamlit as st
@@ -20,9 +20,6 @@ st.markdown("""
 st.markdown('<div class="main-title">🔬 ZeroES Laser Pro</div>', unsafe_allow_html=True)
 st.markdown("---")
 
-# ============================================================
-# ZPIF-ZZFZ Core (50 Zeros)
-# ============================================================
 GAMMA_ZEROS = [
     14.134725, 21.022040, 25.010858, 30.424876, 32.935062,
     37.586178, 40.918719, 43.327073, 48.005151, 49.773832,
@@ -42,9 +39,6 @@ def zzf(x):
         result += g * np.sin(x / g) * np.exp(-1j * g * x)
     return result
 
-# ============================================================
-# الإعدادات
-# ============================================================
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -54,12 +48,8 @@ with col2:
 with col3:
     spectrum = st.selectbox("📡 Spectrum", ["Visible", "IR", "UV", "Microwave", "Radio"])
 
-# ============================================================
-# زر التشغيل
-# ============================================================
 if st.button("▶ RUN SIMULATION", use_container_width=True):
     with st.spinner("Simulating with ZPIF..."):
-        # محاكاة
         x = np.linspace(-5, 5, 200)
         y = np.linspace(-5, 5, 200)
         X, Y = np.meshgrid(x, y)
@@ -73,7 +63,6 @@ if st.button("▶ RUN SIMULATION", use_container_width=True):
         zpif_effect = zpif_effect / np.max(zpif_effect) * 0.5 + 0.5
         intensity_mod = intensity * zpif_effect.reshape(-1, 1)
         
-        # عرض النتائج
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -94,7 +83,6 @@ if st.button("▶ RUN SIMULATION", use_container_width=True):
             st.markdown(f'<div class="result-value">{np.mean(zpif_effect):.2f}</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
         
-        # الرسم البياني
         fig, ax = plt.subplots(figsize=(10, 6))
         im = ax.imshow(intensity_mod, extent=[-5,5,-5,5], cmap='hot', origin='lower')
         ax.set_title(f"{spectrum} - Beam Profile")
